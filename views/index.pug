@@ -1,0 +1,32 @@
+extends layout
+
+block content
+	h1
+		a(href='https://github.com/litwi1rm/pool-list') Bitcoin Gold Pools
+			br
+	table.sortable.container
+		thead
+			tr
+				th
+					h1 Pool
+				th
+					h1 Miners
+				th
+					h1 Hashrate
+				th
+					h1 Blocks
+				th
+					h1 Last Block
+				th
+					h1 Status
+				tbody
+				if (pools.length)
+				for pool in pools
+					tr
+						td
+							a(href=' #{pool.url} ') #{pool.name}
+						td #{pool.workers}
+						td #{pool.hash}
+						td #{pool.blocks}
+						td #{pool.netblocks}
+						td #{pool.status}
