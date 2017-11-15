@@ -35,6 +35,7 @@ poolArray = [
 
 
 date = time.strftime("%Y-%m-%d")
+redisServer.delete('pools')
 
 for pool in poolArray:
     try:
@@ -44,20 +45,24 @@ for pool in poolArray:
         netblocks = response['pools'][pool['poolkey']]['poolStats']['networkBlocks'];
         workers = response['pools'][pool['poolkey']]['workerCount'];
 
-        # print hashrate
-        # print blocks
-        # print netblocks
-        # print workers
-
         #add to redis
         redisServer.hset(pool['name'], 'name', pool['name'])
         redisServer.hset(pool['name'], 'hashrate', hashrate)
         redisServer.hset(pool['name'], 'blocks', blocks)
         redisServer.hset(pool['name'], 'netblocks', netblocks)
         redisServer.hset(pool['name'], 'workers', workers)
+        redisServer.hset(pool['name'], 'status', "Live")
+        redisServer.sadd('pools', pool['name'])
 
     except:
         print "no response from "+ pool['name']
-    redisServer.sadd('pools', pool['name'])
+        redisServer.hset(pool['name'], 'name', pool['name'])
+        redisServer.hset(pool['name'], 'hashrate', 'n/a')
+        redisServer.hset(pool['name'], 'blocks', 'n/a')
+        redisServer.hset(pool['name'], 'netblocks', 'n/a')
+        redisServer.hset(pool['name'], 'workers', 'n/a')
+        redisServer.hset(pool['name'], 'status', "n/a")
+        redisServer.sadd('pools', pool['name'])
+
 
 print "main done"
