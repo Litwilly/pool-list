@@ -24,9 +24,11 @@ connection.smembers('pools', function(err, poolList) {
       connection.hgetall(pA, function(err, stats) {
           pools.push({
             "hash": stats.hashrate,
+            "hashnum": stats.hashnum,
             "name": stats.name,
             "blocks": stats.blocks,
             "workers": stats.workers,
+            "miners": stats.miners,
             "netblocks": stats.netblocks,
             "url": stats.url,
             "status": stats.status

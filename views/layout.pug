@@ -1,10 +1,25 @@
 doctype html
 html
   head
-    title= title
+    script(language='javascript').
+      function vorsort() {
+      var myTH = document.getElementsByTagName('th')[1];
+      sorttable.innerSortFunction.apply(myTH, []);
+      }
     link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel='stylesheet', href='/stylesheets/table-responsive.css')
+    link(rel='icon', href='/images/favicon.png')
+    
+    script(src="/javascripts/jquery-3.2.1.min.js")
     script(src="/javascripts/sorttable.js")
+    
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
-  body
+    meta(charset='utf-8')
+    meta(name='description', content='BitcoinGold Pool List')
+    meta(name='keywords', content='btg, bitcoin, pool-list bitcoingold, mining-pool, mining, cryptocurrency')
+    
+    title Bitcoin-Gold Pool List
+  
+
+  body(onload='javascript:vorsort();')
     block content

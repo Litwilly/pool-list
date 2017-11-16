@@ -1,33 +1,41 @@
 extends layout
 
-block content
-	h1
-		a(href='https://github.com/litwi1rm/pool-list') Bitcoin Gold Pools
-			br
+block content								
+	h1.link
+		a(target='_new' href='https://btg.cryptopros.us') Bitcoin Gold Pools 
+			div
+			img(src='https://btg.cryptopros.us/static/cryptopros.png', height='36px', style='margin-top: 10px;')
+
 	h2 Tips: Don't share your private keys or seeds to any service that you don't fully trust.
 	table.sortable.container
 		thead
-			tr
-				th
-					h1 Pool
-				th
-					h1 Miners
-				th
-					h1 Hashrate
-				th
-					h1 Blocks
-				th
-					h1 Last Block
-				th
-					h1 Status
+			tr.header
+				th Pool
+				th Miners
+				th Workers
+				th Hashrate
+				th Blocks
+				th Last Block
+				th Status
 				tbody
 				if (pools.length)
 				for pool in pools
-					tr
-						td
-							a(href=' #{pool.url} ') #{pool.name}
+					tr(class=pool.name)
+						td.link
+							a(target='_new' href=pool.url) 
+								b #{pool.name}
+						td #{pool.miners}
 						td #{pool.workers}
-						td #{pool.hash}
+						td(sorttable_customkey=pool.hashnum) #{pool.hash} 
 						td #{pool.blocks}
 						td #{pool.netblocks}
-						td #{pool.status}
+						if pool.status == "Live" 
+							td.pool-live #{pool.status}
+						else
+							td.pool-dead Blocked/Dead
+							
+	footer
+		h3 This site is powered by the open source 
+			a(target='_blank', href='https://github.com/litwi1rm/pool-list') pool-list
+			span  project created by Ryan @ CryptoPros.us and the BTG Community 
+			
