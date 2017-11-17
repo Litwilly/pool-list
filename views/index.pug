@@ -12,30 +12,37 @@ block content
 			tr.header
 				th Pool
 				th Miners
-				th Workers
 				th Hashrate
+				th Fee
 				th Blocks
 				th Last Block
+				th Last Block Mined
 				th Status
 				tbody
 				if (pools.length)
 				for pool in pools
 					tr(class=pool.name)
-						td.link
+						td(data-th="Pool" class="link")
 							a(target='_new' href=pool.url) 
 								b #{pool.name}
-						td #{pool.miners}
-						td #{pool.workers}
-						td(sorttable_customkey=pool.hashnum) #{pool.hash} 
-						td #{pool.blocks}
-						td #{pool.netblocks}
+						td(data-th="Miners") #{pool.miners}
+						td(sorttable_customkey=pool.hashnum data-th="Hashrate") #{pool.hash} 
+						td(data-th="Fee") #{pool.fee}
+						td(data-th="Blocks") #{pool.blocks}
+						td(data-th="Last Block") #{pool.netblocks}
+						td= pool.mined
 						if pool.status == "Live" 
-							td.pool-live #{pool.status}
+							td(data-th="Status" class="pool-live") #{pool.status}
 						else
-							td.pool-dead Blocked/Dead
-							
+							td(data-th="Status") Blocked/Dead
+
 	footer
 		h3 This site is powered by the open source 
 			a(target='_blank', href='https://github.com/litwi1rm/pool-list') pool-list
-			span  project created by Ryan @ CryptoPros.us and the BTG Community 
-			
+			span  project created by Ryan and the BTG Community
+			div
+			br
+			on Please Contact Ryan or what the cuss in the BTG Slack for any needed updates
+			br
+			br
+			on Last Block Mined is WIP and not accurate, Python wizards needed!

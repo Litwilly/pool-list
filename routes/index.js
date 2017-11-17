@@ -31,6 +31,8 @@ connection.smembers('pools', function(err, poolList) {
             "miners": stats.miners,
             "netblocks": stats.netblocks,
             "url": stats.url,
+            "fee": stats.fee,
+            "mined": stats.mined,
             "status": stats.status
           });
           callback();
