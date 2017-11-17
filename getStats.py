@@ -7,6 +7,7 @@ import redis
 import time
 import json
 import ssl
+import collections
 
 try:
     _create_unverified_https_context = ssl._create_unverified_context
