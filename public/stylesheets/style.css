@@ -7,9 +7,14 @@ a {
   color: #00B7FF;
 }
 
-.pool-live {
+.pool-success {
   color: green;
   font-weight: bold !important;
+}
+
+.pool-alert {
+  color: red;
+  /*font-weight: bold !important;*/
 }
 
 tr.CryptoPros, tr.CryptoPros td{

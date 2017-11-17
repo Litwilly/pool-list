@@ -7,7 +7,7 @@ import redis
 import time
 import json
 import ssl
-import collections
+import re
 
 try:
     _create_unverified_https_context = ssl._create_unverified_context
@@ -86,7 +86,6 @@ for pool in poolArray:
 
     try:
         resBlocks = json.loads(urllib.urlopen(pool['api']+pool['blocks']).read())
-        resBlocks = collections.OrderedDict(resBlocks)
         if not resBlocks:
             redisServer.hset(pool['name'], 'mined', 'None')
             print("no blocks from "+ pool['name'])

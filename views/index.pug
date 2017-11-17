@@ -7,7 +7,7 @@ block content
 			img(src='https://btg.cryptopros.us/static/cryptopros.png', height='36px', style='margin-top: 10px;')
 
 	h2 Tips: Don't share your private keys or seeds to any service that you don't fully trust.
-	table.sortable.container
+	table.sortable.container#btg-table
 		thead
 			tr.header
 				th Pool
@@ -22,19 +22,28 @@ block content
 				if (pools.length)
 				for pool in pools
 					tr(class=pool.name)
-						td(data-th="Pool" class="link")
+						td.link
 							a(target='_new' href=pool.url) 
-								b #{pool.name}
-						td(data-th="Miners") #{pool.miners}
-						td(sorttable_customkey=pool.hashnum data-th="Hashrate") #{pool.hash} 
-						td(data-th="Fee") #{pool.fee}
-						td(data-th="Blocks") #{pool.blocks}
-						td(data-th="Last Block") #{pool.netblocks}
-						td= pool.mined
-						if pool.status == "Live" 
-							td(data-th="Status" class="pool-live") #{pool.status}
+								b=pool.name
+						if pool.miners == "0"
+							td.pool-alert #{pool.miners}
 						else
-							td(data-th="Status") Blocked/Dead
+							td=pool.miners
+						td(sorttable_customkey=pool.hashnum data-th="Hashrate") #{pool.hash} 
+						if pool.fee == "0%"
+							td.pool-success #{pool.fee}
+						else
+							td #{pool.fee}
+						td=pool.blocks
+						td=pool.netblocks
+						if pool.netblocks == pool.mined
+							td.pool-success #{pool.mined}
+						else
+							td= pool.mined
+						if pool.status == "Live" 
+							td.pool-success #{pool.status}
+						else
+							td Blocked/Dead
 
 	footer
 		h3 This site is powered by the open source 
