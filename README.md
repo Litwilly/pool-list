@@ -14,6 +14,7 @@ git clone https://github.com/litwi1rm/pool-list.git
 cd pool-list
 npm install
 npm start
+pip install cfscrape
 ```
 
 Reload file changes
