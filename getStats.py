@@ -8,6 +8,7 @@ import time
 import json
 import ssl
 import re
+import cfscrape
 
 try:
     _create_unverified_https_context = ssl._create_unverified_context
@@ -25,23 +26,23 @@ pipe = redisServer.pipeline()
 
 # 2D array group name used in Redis key
 poolArray = [
-{'url':'https://btg.cryptopros.us', 'api':'https://btg.cryptopros.us/api/', 'stats':'stats/', 'blocks':'blocks/', 'name':'CryptoPros', 'poolkey':'bitcoin-gold', 'fee':'0.0%'},
-# cloudflare {'url':'http://pool.miningspeed.com', 'stats':'stats/', 'blocks':'blocks/', 'name':'Miningspeed', 'poolkey':'bitcoingold'},
-  {'url':'https://btg.poool.io', 'api':'https://btg.poool.io/api/', 'stats':'stats/', 'blocks':'blocks/', 'name':'Pool.io', 'poolkey':'bitcoin gold', 'fee':'1%'},
-  {'url':'http://btg.cloudhash.eu', 'api':'http://btg.cloudhash.eu/api/', 'stats':'stats/', 'blocks':'blocks/', 'name':'CloudHash', 'poolkey':'bitcoin gold', 'fee':'1%'},
-  {'url':'http://btg.nibirupool.com', 'api':'http://btg.nibirupool.com/api/', 'stats':'stats/', 'blocks':'blocks/', 'name':'Nibirupool', 'poolkey':'bitcoin gold', 'fee':'1%'},
-  {'url':'https://pool.serverpower.net', 'api':'https://pool.serverpower.net/api/', 'stats':'stats/', 'blocks':'blocks/', 'name':'ServerPower', 'poolkey':'bitcoin_gold', 'fee':'0.5%'},
-  {'url':'http://btgpool.pro', 'api':'http://btgpool.pro/api/', 'stats':'stats/', 'blocks':'blocks/', 'name':'BTGPool.Pro', 'poolkey':'bgold', 'fee':'N/A'},
-  {'url':'http://lucky-mining.com.ua', 'api':'http://lucky-mining.com.ua/api/', 'stats':'stats/', 'blocks':'blocks/', 'name':'Lucky-Mining[RU]', 'poolkey':'bitcoingold', 'fee':'0.0%'},
-  {'url':'https://multipool.es', 'api':'https://multipool.es/api/', 'stats':'stats/', 'blocks':'blocks/', 'name':'Multipool[ES]', 'poolkey':'bitcoin gold', 'fee':'0.25%'},
-  {'url':'http://savspool.mine.nu', 'api':'http://savspool.mine.nu/api/', 'stats':'stats/', 'blocks':'blocks/', 'name':'Savspool', 'poolkey':'bitcoin gold', 'fee':'1%'},
-  {'url':'http://bgold.mining4.co.uk', 'api':'http://bgold.mining4.co.uk/api/', 'stats':'stats/', 'blocks':'blocks/', 'name':'Mining4', 'poolkey':'bitcoin gold', 'fee':'0.25%'},
-  {'url':'http://kulturmining.com', 'api':'http://kulturmining.com/api/', 'stats':'stats/', 'blocks':'blocks/', 'name':'KulturMining', 'poolkey':'bitcoin gold', 'fee':'0.7%'},
-  {'url':'http://btg.goldenshow.io', 'api':'http://btg.goldenshow.io/api/', 'stats':'stats/', 'blocks':'blocks/', 'name':'GoldenShow', 'poolkey':'bitcoin gold', 'fee':'1%'},
-  {'url':'http://pool.gold', 'api':'https://stat.pool.gold/api/', 'stats':'stats/', 'blocks':'blocks/', 'name':'Pool.Gold', 'poolkey':'bitcoin gold', 'fee':'0.0%'},
+poolArray = [
+{'url':'https://btg.cryptopros.us', 'api':'https://btg.cryptopros.us/api/', 'stats':'stats/', 'blocks':'blocks/', 'name':'CryptoPros', 'poolkey':'bitcoin-gold', 'fee':'0.0%', 'cloudflare':'false'},
+  {'url':'https://pool.miningspeed.com', 'stats':'stats/', 'blocks':'blocks/', 'name':'Miningspeed', 'poolkey':'bitcoingold', 'fee':'4%', 'cloudflare':'true'},
+  {'url':'https://btg.poool.io', 'api':'https://btg.poool.io/api/', 'stats':'stats/', 'blocks':'blocks/', 'name':'Pool.io', 'poolkey':'bitcoin gold', 'fee':'1%', 'cloudflare':'false'},
+  {'url':'http://btg.cloudhash.eu', 'api':'http://btg.cloudhash.eu/api/', 'stats':'stats/', 'blocks':'blocks/', 'name':'CloudHash', 'poolkey':'bitcoin gold', 'fee':'1%', 'cloudflare':'false'},
+  {'url':'http://btg.nibirupool.com', 'api':'http://btg.nibirupool.com/api/', 'stats':'stats/', 'blocks':'blocks/', 'name':'Nibirupool', 'poolkey':'bitcoin gold', 'fee':'1%', 'cloudflare':'false'},
+  {'url':'https://pool.serverpower.net', 'api':'https://pool.serverpower.net/api/', 'stats':'stats/', 'blocks':'blocks/', 'name':'ServerPower', 'poolkey':'bitcoin_gold', 'fee':'0.5%', 'cloudflare':'false'},
+  {'url':'http://btgpool.pro', 'api':'http://btgpool.pro/api/', 'stats':'stats/', 'blocks':'blocks/', 'name':'BTGPool.Pro', 'poolkey':'bgold', 'fee':'N/A', 'cloudflare':'false'},
+  {'url':'http://lucky-mining.com.ua', 'api':'http://lucky-mining.com.ua/api/', 'stats':'stats/', 'blocks':'blocks/', 'name':'Lucky-Mining[RU]', 'poolkey':'bitcoingold', 'fee':'0.0%', 'cloudflare':'false'},
+  {'url':'https://multipool.es', 'api':'https://multipool.es/api/', 'stats':'stats/', 'blocks':'blocks/', 'name':'Multipool[ES]', 'poolkey':'bitcoin gold', 'fee':'0.25%', 'cloudflare':'false'},
+  {'url':'http://savspool.mine.nu', 'api':'http://savspool.mine.nu/api/', 'stats':'stats/', 'blocks':'blocks/', 'name':'Savspool', 'poolkey':'bitcoin gold', 'fee':'1%', 'cloudflare':'false'},
+  {'url':'http://bgold.mining4.co.uk', 'api':'http://bgold.mining4.co.uk/api/', 'stats':'stats/', 'blocks':'blocks/', 'name':'Mining4', 'poolkey':'bitcoin gold', 'fee':'0.25%', 'cloudflare':'false'},
+  {'url':'http://kulturmining.com', 'api':'http://kulturmining.com/api/', 'stats':'stats/', 'blocks':'blocks/', 'name':'KulturMining', 'poolkey':'bitcoin gold', 'fee':'0.7%', 'cloudflare':'false'},
+  {'url':'http://btg.goldenshow.io', 'api':'http://btg.goldenshow.io/api/', 'stats':'stats/', 'blocks':'blocks/', 'name':'GoldenShow', 'poolkey':'bitcoin gold', 'fee':'1%', 'cloudflare':'false'},
+  {'url':'http://pool.gold', 'api':'https://stat.pool.gold/api/', 'stats':'stats/', 'blocks':'blocks/', 'name':'Pool.Gold', 'poolkey':'bitcoin gold', 'fee':'0.0%', 'cloudflare':'false'},
 # cloudflare {'url':'https://gpool.guru', 'stats':'stats/', 'blocks':'blocks/', 'name':'Gpool.guru', 'poolkey':'btg'},
-  {'url':'http://bitcoingoldpool.cloud', 'api':'http://bitcoingoldpool.cloud/api/', 'stats':'stats/', 'blocks':'blocks/', 'name':'Miningpools.cloud', 'poolkey':'btcgold', 'fee':'0.0%'}]
-
+  {'url':'http://bitcoingoldpool.cloud', 'api':'http://bitcoingoldpool.cloud/api/', 'stats':'stats/', 'blocks':'blocks/', 'name':'Miningpools.cloud', 'poolkey':'btcgold', 'fee':'0.0%', 'cloudflare':'false'}]
 
 redisServer.delete('pools')
 
@@ -51,6 +52,12 @@ for p in poolArray:
 
 for pool in poolArray:
     try:
+        if pool['cloudflare'] == 'false':
+                response = json.loads(urllib.urlopen(pool['api']+pool['stats']).read())
+        if pool['cloudflare'] == 'true':
+                import cfscrape
+                scraper = cfscrape.create_scraper()
+                response = scraper.get(pool['api']+pool['stats']).content
         response = json.loads(urllib.urlopen(pool['api']+pool['stats']).read())
         hashrate = response['pools'][pool['poolkey']]['hashrateString']
         hashnum = response['pools'][pool['poolkey']]['hashrate']
