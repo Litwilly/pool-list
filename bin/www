@@ -7,6 +7,17 @@
 var app = require('../app');
 var debug = require('debug')('cryptolist:server');
 var http = require('http');
+var fs = require('fs');
+var stats = require('../sync/stats');
+
+var config = JSON.parse(JSON.minify(fs.readFileSync("config.json", {encoding: 'utf8'})));
+
+// refresh stats
+stats();
+
+// keep refreshing at configured value
+var refreshInterval = config.refreshInterval || 5;
+setInterval(stats, refreshInterval * 60 * 1000);
 
 /**
  * Get port from environment and store in Express.
