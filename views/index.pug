@@ -1,57 +1,218 @@
 extends layout
 
 block content								
-	h1.link
-		a(target='_new' href='https://btg.cryptopros.us') Bitcoin Gold Pools 
-			div
-			img(src='https://btg.cryptopros.us/static/cryptopros.png', height='36px', style='margin-top: 10px;')
+	div.top
+		h1.link
+			//- a(target='_new' href='https://btg.cryptopros.us') Pool Lists
+	h3.text-center(style="font-size: 20px;")
+		strong 
+			| Support Decentralization and Smaller Pools
+	.container
+		ul.nav.nav-tabs.pool-tabs
+			li.active
+				a(href='#btg', data-toggle='tab', aria-expanded='true') Bitcoin-Gold
+			li
+				a(href='#dbix', data-toggle='tab', aria-expanded='false') DBIX
+			li
+				a(href='#pirl', data-toggle='tab', aria-expanded='false') PIRL
+			li
+				a(href='#crc', data-toggle='tab', aria-expanded='false') CrowdCoin
+			li
+				a(href='#pega', data-toggle='tab', aria-expanded='false') Pegascoin
+		.tab-content
+			#btg.tab-pane.fade.in.active
+				.row
+					if (btgPoolStats.length)
+					for ps in btgPoolStats
+						.col-sm-4.text-center 
+							h3 Price: $ #{ps.btgprice}
+						.col-sm-4.text-center 
+							h3 Network Difficulty: #{ps.netDiff} 
+						.col-sm-4.text-center 
+							h3 Network Hashrate: #{ps.coinHash} MSol/s
+				table.sortable.container.table.table-striped.table-hover#btg-table
+					thead
+						tr.header
+							th Pool
+							th Miners
+							th Hashrate
+							th Fee
+							th Blocks
+							th Last Block
+							th Last Block Mined
+							th Net Hash %
+							//- th Valid Shares
+							//- th Share Count
+							tbody
+							if (pools.length)
+							for pool in pools
+								tr(class=pool.name)
+									td.link
+										a(target='_new' href=pool.url) 
+											b=pool.name
+									if pool.miners == "0"
+										td.pool-alert #{pool.miners}
+									else
+										td=pool.miners
+									td #{pool.hashnum} KSol/s
+									if pool.fee == "0%"
+										td.pool-success #{pool.fee}
+									else
+										td #{pool.fee}
+									td=pool.blocks
+									td=pool.netblocks
+									if pool.netblocks == pool.mined
+										td.pool-success #{pool.mined}
+									else
+										td= pool.mined
+									if pool.percentage > 8
+										td.pool-alert #{pool.percentage} %
+									else
+										td #{pool.percentage} %
+									//- td=pool.validShares
+									//- td=pool.shareCount
+			#dbix.tab-pane
+				table.sortable.container.table.table-striped.table-hover#dbix-table
+					thead
+						tr.header
+							th Pool
+							th Miners
+							th Hashrate
+							th Fee
+							th Blocks
+							th Last Block
+							tbody
+							if (dbixPool.length)
+							for p in dbixPool
+								tr(class=p.name)
+									td.link
+										a(target='_new' href=p.url) 
+											b=p.name
+									if p.miners == "0"
+										td.pool-alert #{p.miners}
+									else
+										td=p.miners
+									td #{p.hash} GH
+									if p.fee == "0%"
+										td.pool-success #{p.fee}
+									else
+										td #{p.fee}
+									td=p.blocks
+									td=p.netblocks
+			#pirl.tab-pane
+				.row
+					if (pirlPoolStats.length)
+					for ps in pirlPoolStats
+						.col-md-4.text-center 
+							h3 Price: $#{ps.price}
+						.col-md-4.text-center 
+							h3 Average Blocktime: #{ps.blocktime}
+						.col-md-4.text-center 
+							h3 Network Hashrate: #{ps.coinHash} GH
 
-	h2 Tips: Don't share your private keys or seeds to any service that you don't fully trust.
-	table.sortable.container#btg-table
-		thead
-			tr.header
-				th Pool
-				th Miners
-				th Hashrate
-				th Fee
-				th Blocks
-				th Last Block
-				th Last Block Mined
-				th Status
-				tbody
-				if (pools.length)
-				for pool in pools
-					tr(class=pool.name)
-						td.link
-							a(target='_new' href=pool.url) 
-								b=pool.name
-						if pool.miners == "0"
-							td.pool-alert #{pool.miners}
-						else
-							td=pool.miners
-						td(sorttable_customkey=pool.hashnum data-th="Hashrate") #{pool.hash} 
-						if pool.fee == "0%"
-							td.pool-success #{pool.fee}
-						else
-							td #{pool.fee}
-						td=pool.blocks
-						td=pool.netblocks
-						if pool.netblocks == pool.mined
-							td.pool-success #{pool.mined}
-						else
-							td= pool.mined
-						if pool.status == "Live" 
-							td.pool-success #{pool.status}
-						else
-							td Blocked/Dead
-
-	footer
-		h3 This site is powered by the open source 
-			a(target='_blank', href='https://github.com/litwi1rm/pool-list') pool-list
-			span  project created by Ryan and the BTG Community
-			div
-			br
-			on Please Contact Ryan or what the cuss in the BTG Slack for any needed updates
-			br
-			br
-			on Last Block Mined is WIP and not accurate, Python wizards needed!
+				table.sortable.container.table.table-striped.table-hover#pirl-table
+					thead
+						tr.header
+							th Pool
+							th Miners
+							th Hashrate
+							th Fee
+							th Blocks
+							th Net Hash %
+							tbody
+							if (pirlPool.length)
+							for p in pirlPool
+								tr(class=p.name)
+									td.link
+										a(target='_new' href=p.url) 
+											b=p.name
+									if p.miners == "0"
+										td.pool-alert #{p.miners}
+									else
+										td=p.miners
+									td #{p.hash} GH
+									if p.fee == "0%"
+										td.pool-success #{p.fee}
+									else
+										td #{p.fee}
+									td=p.blocks
+									if p.percentage >= "51"
+										td.pool-alert #{p.percentage}
+									else
+										td #{p.percentage} 
+			#pega.tab-pane
+				table.sortable.container.table.table-striped.table-hover#pega-table
+					.row
+						if (pegaPoolStats.length)
+						for pg in pegaPoolStats
+							.col-sm-4.text-center 
+								h3 Price:
+							.col-sm-4.text-center 
+								h3 Network Difficulty: 
+							.col-sm-4.text-center 
+								h3 Network Hashrate: #{pg.coinHash} MSol/s
+					thead
+						tr.header
+							th Pool
+							th Miners
+							th Hashrate
+							th Fee
+							th Blocks
+							th Net Hash %
+							tbody
+							if (pegaPool.length)
+							for p in pegaPool
+								tr(class=p.name)
+									td.link
+										a(target='_new' href=p.url) 
+											b=p.name
+									if p.miners == "0"
+										td.pool-alert #{p.miners}
+									else
+										td=p.miners
+									td #{p.hash} GH
+									if p.fee == "0%"
+										td.pool-success #{p.fee}
+									else
+										td #{p.fee}
+									td=p.blocks
+									td=p.percentage
+			#crc.tab-pane
+				table.sortable.container.table.table-striped.table-hover#crc-table
+					.row
+						if (crcPoolStats.length)
+						for crc in crcPoolStats
+							.col-sm-4.text-center 
+								h3 Price:
+							.col-sm-4.text-center 
+								h3 Network Difficulty: #{crc.coinDiff} 
+							.col-sm-4.text-center 
+								h3 Network Hashrate: #{crc.coinHash} 
+					thead
+						tr.header
+							th Pool
+							//- th Miners
+							th Hashrate
+							th Fee
+							//- th Last Block
+							th Net Hash %
+							th TTF
+							tbody
+							if (crcPool.length)
+							for c in crcPool
+								tr(class=c.name)
+									td.link
+										a(target='_new' href=) 
+											b=c.name
+									//- if p.miners == "0"
+									//- 	td.pool-alert #{p.miners}
+									//- else
+									//- 	td=p.miners
+									td #{(c.hash/1000).toFixed(2)} MH
+									if c.fee == "0"
+										td.pool-success #{c.fee} %
+									else
+										td #{c.fee} %
+									//- td=c.netblocks
+									td=c.percentage
+									td=c.ttf

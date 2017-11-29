@@ -1,0 +1,50 @@
+extends layout
+
+block content				
+	div.top
+		h1.link
+			a(target='_new' href='https://btg.cryptopros.us') Bitcoin Gold Pools 
+
+		h2 Tips: Don't share your private keys or seeds to any service that you don't fully trust.
+		table.sortable.container#btg-table
+			thead
+				tr.header
+					th Pool
+					th Miners
+					th Hashrate
+					th Fee
+					th Blocks
+					th Last Block
+					th Last Block Mined
+					th Valid Shares
+					th Share Count
+					//- th Status
+					tbody
+					if (pools.length)
+					for pool in pools
+						tr(class=pool.name)
+							td.link
+								a(target='_new' href=pool.url) 
+									b=pool.name
+							if pool.miners == "0"
+								td.pool-alert #{pool.miners}
+							else
+								td=pool.miners
+							td(sorttable_customkey=pool.hashnum data-th="Hashrate") #{pool.hash} 
+							if pool.fee == "0%"
+								td.pool-success #{pool.fee}
+							else
+								td #{pool.fee}
+							td=pool.blocks
+							td=pool.netblocks
+							if pool.netblocks == pool.mined
+								td.pool-success #{pool.mined}
+							else
+								td= pool.mined
+							td=pool.validShares
+							td=pool.shareCount
+								
+							//- if pool.status == "Live" 
+							//- 	td.pool-success #{pool.status}
+							//- else
+							//- 	td Blocked/Dead

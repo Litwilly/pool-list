@@ -1,25 +1,94 @@
 doctype html
 html
   head
-    script(language='javascript').
-      function sort() {
-        new Tablesort(document.getElementById('btg-table'));
-      }
+    link(rel='stylesheet', href='/stylesheets/bootstrap.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
-    link(rel='stylesheet', href='/stylesheets/table-responsive.css')
-    link(rel='icon', href='/images/favicon.png')
+    link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Open+Sans')
+    //- link(rel='stylesheet', href='/stylesheets/table-responsive.css')
+    link(rel='icon', href='/images/logo.png')
     
     script(src="/javascripts/jquery-3.2.1.min.js")
     script(src="/javascripts/tablesort.min.js")
     script(src="/javascripts/sorts/tablesort.number.min.js")
-    
+    script(language='javascript').
+      function sort() {
+        new Tablesort(document.getElementById('btg-table'));
+        new Tablesort(document.getElementById('dbix-table'));
+        new Tablesort(document.getElementById('pirl-table'));
+        new Tablesort(document.getElementById('pega-table'));
+        new Tablesort(document.getElementById('crc-table'));
+      }
+
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     meta(charset='utf-8')
     meta(name='description', content='Bitcoin-Gold Pool List')
     meta(name='keywords', content='btg, bitcoin, pool-list bitcoingold, mining-pool, mining, cryptocurrency')
-    
-    title Bitcoin-Gold Pools
-  
 
-  body(onload='javascript:sort();')
-    block content
+    title Bitcoin-Gold Pools
+
+
+    body(onload='javascript:sort();')
+      .navbar.navbar-inverse.navbar-fixed-top(role="navigation")
+        .container.nav-color-a
+          .navbar-header
+            button.navbar-toggle(type="button", data-toggle="collapse", data-target="#my-nav-bar")
+              span.sr-only Toggle navigation
+              span.icon-bar
+              span.icon-bar
+              span.icon-bar
+            ul.nav.navbar-nav
+              li
+                a.navbar-brand(href="/")
+                  .nav-logo
+                    span.logo-1
+                    span.logo-2
+                      img(src="https://btg.cryptopros.us/static/cryptopros.png", height="36px", style="margin-top: -10px;")
+              li
+                a.hot-swapper(style="color:white;")
+                  strong Pool Lists
+          #my-nav-bar.collapse.navbar-collapse
+            ul.nav.navbar-nav.navbar-right
+              li 
+                a.hot-swapper
+                  | Pools:
+              li
+                a.hot-swapper(href="https://btg.cryptopros.us")
+                  strong Bitcoin-Gold
+              li
+                a.hot-swapper(href="https://pirl.cryptopros.us")
+                  strong PIRL
+              li
+                a.hot-swapper(href="https://pega.litwiller.us")
+                  strong Pegascoin
+              li
+                a.hot-swapper(href="https://dbix.cryptopros.us")
+                  strong DBIX
+              li
+                a.hot-swapper(href="https://crc.cryptopros.us")
+                  strong CrowdCoin
+            
+          
+      block content
+      
+      .navbar.navbar-default.navbar-fixed-bottom
+        .container
+          p.text-muted
+            | © Powered by Litwiller & BTG Community | Github - 
+            a(target='_blank', href='https://github.com/litwi1rm/pool-list') pool-list 
+            |  | Inspired by 
+            a(target='_blank', href='https://github.com/minerpoolnet/pools') minerpoolnet/pools
+            |  | 
+            a(href="mailto:litwi1rm@gmail.com", target="_top")  Support / Feedback |
+            a(href="https://discord.gg/2EydhCE")
+                |  Join Discord   
+                img(src="https://png.icons8.com/discord/color/25/000000")
+                  
+      script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js')
+      script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js')
+      script(language='javascript').
+        var hash = document.location.hash;
+        var prefix = "tab_";
+        if (hash) {
+          $('.nav-tabs a[href="'+hash.replace(prefix,"")+'"]').tab('show');
+        }
+    

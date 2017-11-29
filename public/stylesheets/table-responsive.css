@@ -61,10 +61,10 @@ h2 a {
 	        box-shadow: 0 2px 2px -2px #0E1119;
 }
 
-.container {
+.container table{
 	  text-align: left;
 	  overflow: hidden;
-	  width: 80%;
+	  width: 100%;
 	  margin: 0 auto;
   display: table;
   padding: 0 0 3em 0;

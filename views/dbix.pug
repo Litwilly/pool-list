@@ -1,0 +1,38 @@
+extends layout
+
+block content								
+	div.top
+		h1.link
+			a(target='_new' href='https://dbix.cryptopros.us') DBIX Pools 
+
+	table.sortable.container#btg-table
+		thead
+			tr.header
+				th Pool
+				th Miners
+				th Hashrate
+				th Fee
+				th Blocks
+				th Last Block
+				tbody
+				if (pools.length)
+				for pool in pools
+					tr(class=pool.name)
+						td.link
+							a(target='_new' href=pool.url) 
+								b=pool.name
+						if pool.miners == "0"
+							td.pool-alert #{pool.miners}
+						else
+							td=pool.miners
+						td #{pool.hash} GH
+						if pool.fee == "0%"
+							td.pool-success #{pool.fee}
+						else
+							td #{pool.fee}
+						td=pool.blocks
+						td=pool.netblocks
+						//- if pool.netblocks == pool.mined
+						//- 	td.pool-success #{pool.mined}
+						//- else
+						//- 	td= pool.mined

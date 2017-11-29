@@ -1,6 +1,13 @@
+html{
+    background: url(../images/bg.png);
+    overflow-y: scroll;
+    font-family: 'Open Sans', sans-serif;
+}
+
 body {
-  /*padding: 50px;*/
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-family: 'Open Sans', sans-serif;
+  background: url(../images/bg.png);
+  padding-bottom: 75px
 }
 
 a {
@@ -18,13 +25,13 @@ a {
 }
 
 tr.CryptoPros, tr.CryptoPros td{
-  background-color: #0957a4 !important;
+  background-color: rgba(9, 86, 162, 0.15) !important;
   font-weight: bold !important;
-  color: white !important;
+  color: black !important;
 }
 
 .link > a{
-  color: #FFFFFF;
+  color: #333333;
   border: 0px;
   text-align: center;
   text-decoration: none;
@@ -45,5 +52,87 @@ h3 {
     display: block;
     line-height: 1em;
     padding-bottom: 1em;
-    color: white;
+    color: black;
   }
+
+.top {
+  margin-top: 75px;
+}
+.tab-content{
+  margin-top: 10px;
+}
+.pool-tabs a{
+  font-size: 26px;
+  text-decoration: none;
+  font-weight: bold;
+  color: black;
+  text-align: center;
+}
+.pool-tabs a:hover{
+  color: #555555;
+}
+.pool-tabs li{
+  margin-right: 45px;
+  margin-left: 45px;
+}
+.navbar-inverse{
+    background-color: #101010 !important;
+}
+.nav-tabs > li, .nav-pills > li {
+    float:none;
+    display:inline-block;
+    *display:inline; /* ie7 fix */
+     zoom:1; /* hasLayout ie7 trigger */
+}
+
+.nav-tabs, .nav-pills {
+    text-align:center;
+}
+
+body > div.navbar.navbar-default.navbar-fixed-bottom > div > p{
+    text-align: center;
+    margin: 14px;
+}
+
+@media (max-width: 1200px) {
+  .pool-tabs a{
+    font-size: 20px;
+  }
+
+  .pool-tabs li{
+    margin-right: 35px;
+    margin-left: 35px;
+  }
+}
+
+@media (max-width: 990px) {
+  .pool-tabs a{
+    font-size: 16px;
+  }
+
+  .pool-tabs li{
+    margin-right: 25px;
+    margin-left: 25px;
+  }
+}
+@media (max-width: 728px) {
+  .pool-tabs a{
+    font-size: 14px;
+  }
+
+  .pool-tabs li{
+    margin-right: 15px;
+    margin-left: 15px;
+  }
+}
+
+@media (max-width: 632px) {
+  .pool-tabs a{
+    font-size: 12px;
+  }
+
+  .pool-tabs li{
+    margin-right: 5px;
+    margin-left: 5px;
+  }
+}
