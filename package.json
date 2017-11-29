@@ -20,6 +20,7 @@
     "redis": "^2.8.0",
     "serve-favicon": "~2.4.5",
     "web3": "^0.20.2",
-    "web3admin": "^0.4.4"
+    "web3admin": "^0.4.4",
+    "request": "^2.83.0"
   }
 }
